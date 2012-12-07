@@ -1,0 +1,5 @@
+= dash
+
+Generate this with
+    dash rdoc
+After you have described your command line interface

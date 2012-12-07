@@ -1,0 +1,6 @@
+= dash
+
+Describe your project here
+
+:include:dash.rdoc
+
