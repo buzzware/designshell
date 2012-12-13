@@ -1,4 +1,6 @@
-require 'dash/version.rb'
-
-# Add requires for other files you add to your project here, so
-# you just need to require this one file in your bin file
+#require 'dash/version.rb'
+require 'dash/context'
+require 'dash/key_chain'
+require 'dash/repo'
+require 'dash/repo_server'
+require 'dash/core'
