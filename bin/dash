@@ -1,12 +1,13 @@
 #!/usr/bin/env ruby
 #begin # XXX: Remove this begin/rescue before distributing your app
 require 'dash'
-require 'gli'
-require 'git'
-require 'buzzcore'
-require 'termios'
-require 'highline/import'
-require 'ruby-debug'
+#require 'ruby-debug';debugger
+
+if ARGV.length==1 && ARGV[0].index(' ')   # fix for intellij
+	parts = ARGV[0].split(' ')
+	ARGV[0] = parts.shift
+	ARGV.insert(-1,*parts)
+end
 #rescue LoadError
 #  STDERR.puts "In development, you need to use `bundle exec bin/todo` to run your app"
 #  STDERR.puts "At install-time, RubyGems will make sure lib, etc. are in the load path"
@@ -14,44 +15,55 @@ require 'ruby-debug'
 #  exit 64
 #end
 
+HighLine::Question.class_eval do
+	alias_method :orig_append_default, :append_default
+	def append_default
+		orig_append_default
+		@question = StringUtils.split3(@question,/\|.*\|/) do |head,match,tail|
+			match.sub!('|','(')
+			match[match.rindex('|'),1]=')'
+			match
+		end
+	end
+end
+
+
 include GLI::App
 
 program_desc 'Describe your application here'
 
-
-
 #version Dash::VERSION
 
-desc 'Describe some switch here'
-switch [:s,:switch]
-
-desc 'Describe some flag here'
-default_value 'the default'
-arg_name 'The name of the argument'
-flag [:f,:flagname]
+#desc 'Describe some switch here'
+#switch [:s,:switch]
+#
+#desc 'Describe some flag here'
+#default_value 'the default'
+#arg_name 'The name of the argument'
+#flag [:f,:flagname]
 
 desc 'configure credentials etc'
 arg_name 'subcommands are: bitbucket'
-command :configure do |c|
-	c.action do |global_options,options,args|
+command :configure do |configure|
 
-		username = ask("User name: ") { |q| q.default = "none" }
-		say username
-
-		desc 'configure bitbucket for managing repositories'
-		arg_name 'none'
-		command :bitbucket do |c|
-			c.action do |global_options,options,args|
-
-				#context = Dash::Context.new(args)
-				#dash = Dash::Core.new(context)
-				# use highline to ask questions here and store in key_chain
-
-
-
-			end
+	configure.desc 'configure bitbucket for managing repositories'
+	configure.arg_name 'none'
+	configure.command :bitbucket do |bb|
+		bb.action do |global_options,options,args|
+			context = Dash::Context.new(args)
+			repo = Dash::Repo.new
+			keyChain = Dash::KeyChain.new
+			core = Dash::Core.new(
+				:context => context,
+			  :keyChain => keyChain,
+			  :repo => repo
+			)
+			# use highline to ask questions here and store in key_chain
+			username = ask("User name: ") { |q|
+				q.default = "none"
+			}
+			say username
 		end
-
 	end
 end
 
@@ -104,6 +116,23 @@ command :build do |c|
   end
 end
 
+
+#desc 'List tasks'
+#long_desc <<EOS
+#List the tasks in your task list, possibly including completed tasks.  By default, this will list
+#all uncompleted tasks.
+#EOS
+#command [:list,:ls] do |c|
+#
+#	c.desc 'List all tasks, including completed ones'
+#	c.command :all do |all|
+#		all.action do
+#			say 'list all'
+#		end
+#	end
+#
+#	c.default_command :all
+#end
 
 # download existing repo : dash clone git://somegitrepo
 # server side repo clone : dash fork

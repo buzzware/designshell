@@ -1,4 +1,11 @@
 #require 'dash/version.rb'
+require 'osx_keychain'
+require 'gli'
+require 'git'
+require 'buzzcore'
+require 'termios'
+require 'highline/import'
+
 require 'dash/context'
 require 'dash/key_chain'
 require 'dash/repo'

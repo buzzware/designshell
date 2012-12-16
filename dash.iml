@@ -7,6 +7,8 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="POpen4 (v0.1.4, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="Platform (v0.4.0, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="RubyInline (v3.11.4, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="ZenTest (v4.8.3, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="activesupport (v3.2.9, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="aruba (v0.5.1, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bitbucket_rest_api (v0.1.1, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
@@ -47,6 +49,7 @@
     <orderEntry type="library" scope="PROVIDED" name="multipart-post (v1.1.5, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nokogiri (v1.5.5, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="open4 (v1.3.0, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="osx_keychain (v1.0.0, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="padrino-core (v0.10.7, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="padrino-helpers (v0.10.7, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack (v1.4.1, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />

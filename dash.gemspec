@@ -34,5 +34,6 @@ lib/dash.rb
 	s.add_runtime_dependency('buzzcore')
 	s.add_runtime_dependency('POpen4')
 	s.add_runtime_dependency('bitbucket_rest_api')
+	s.add_runtime_dependency('osx_keychain')
 
 end

@@ -3,18 +3,19 @@ module Dash
 
 		attr_reader :repo,:configured
 
-		def initialize(aContext)
-			@@instance = self unless @@instance
-			@repo = Repo.new(self)
-			configure(aContext) if aContext
+		def initialize(aDependencies)
+			@@instance = self unless (defined? @@instance) && @@instance
+			@context = aDependencies[:context]
+			@repo = aDependencies[:repo]
+			@keyChain = aDependencies[:keyChain]
+			configure(@context) if @context
 		end
 
 		def self.instance
-			return @@instance || @@instance=Dash::Repo.new
+			(defined? @@instance) && @@instance
 		end
 
 		def configure(aContext)
-			@repo.configure(aContext)
 			@configured = true
 		end
 
