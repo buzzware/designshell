@@ -3,7 +3,7 @@ module Dash
 
 		attr_reader :git,:configured
 
-		GIT_METHODS = [:commit,:add,:reset_hard]
+		GIT_METHODS = [:commit,:add,:reset_hard,:path,:clone,:log]
 
 		def initialize(aDash=nil)
 			@dash = aDash
@@ -22,12 +22,16 @@ module Dash
 			@configured = true
 		end
 
-		def open
-			@git = Git.open(@path, :log => Logger.new(STDOUT))
+		def open(aPath)
+			@git = Git.open(aPath, :log => Logger.new(STDOUT))
 		end
 
 		def init(*args)
 			@git = Git.init(*args)
+		end
+
+		def clone(aUrl,aPath)
+			@git = Git::clone(aUrl,aPath)
 		end
 
 		def open?
@@ -55,5 +59,8 @@ module Dash
 			@git.gcommit(sha)
 		end
 
+		def path
+			@git.dir.path
+		end
 	end
 end

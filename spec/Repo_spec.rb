@@ -34,6 +34,7 @@ describe "Repo" do
 	it "create a repo, add file, commit, change, commit, reset, check" do
 		repo = Dash::Repo.new
 		repo.init testFolder
+		repo.path.should == File.expand_path(testFolder)
 
 		file1 = File.join(testFolder,'file1.txt')
 		content11 = '11111'
@@ -52,6 +53,18 @@ describe "Repo" do
 
 		read_content = MiscUtils.string_from_file(file1)
 		read_content.should == content11
+	end
+
+	it "should download a remote repo and check log, then re-open it and check log again" do
+		repo = Dash::Repo.new
+		repo.clone("git@github.com:buzzware/underscore_plus.git", testFolder)
+		repo.path.should == testFolder
+		repo.log.first.class.should == Git::Object::Commit
+
+		repo = Dash::Repo.new
+		repo.open testFolder
+		repo.path.should == testFolder
+		repo.log.first.class.should == Git::Object::Commit
 	end
 
 
