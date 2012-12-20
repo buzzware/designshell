@@ -3,7 +3,7 @@ module Dash
 
 		attr_reader :git,:configured
 
-		GIT_METHODS = [:commit,:add,:reset_hard,:path,:clone,:log]
+		GIT_METHODS = [:commit,:add,:reset_hard,:path,:clone,:log,:size,:branches,:status]
 
 		def initialize(aDash=nil)
 			@dash = aDash
@@ -17,7 +17,7 @@ module Dash
 			end
 		end
 
-		def configure(aContext)
+		def configure(aContext=nil)
 			# set @path
 			@configured = true
 		end
@@ -36,6 +36,10 @@ module Dash
 
 		def open?
 			!!@git
+		end
+
+		def empty?
+			!@git.branches[0]
 		end
 
 		def commit_all(*args)

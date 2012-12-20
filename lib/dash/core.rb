@@ -3,11 +3,13 @@ module Dash
 
 		attr_reader :repo,:configured
 
-		def initialize(aDependencies)
+		def initialize(aDependencies=nil)
 			@@instance = self unless (defined? @@instance) && @@instance
-			@context = aDependencies[:context]
-			@repo = aDependencies[:repo]
-			@keyChain = aDependencies[:keyChain]
+			if aDependencies
+				@context = aDependencies[:context]
+				@repo = aDependencies[:repo]
+				@keyChain = aDependencies[:keyChain]
+			end
 			configure(@context) if @context
 		end
 
@@ -20,13 +22,13 @@ module Dash
 		end
 
 		def ensure_repo_open
-			raise Error.new('not configured') if !configured? || !repo || !repo.configured?
+			raise "not configured" if (!configured || !repo || !repo.configured)
 			repo.open unless repo.open?
 			repo
 		end
 
 		def build
-			response = POpen4::shell('somebinary');
+			response = POpen4::shell('ls');
 			# puts result[:stdout]
 		end
 

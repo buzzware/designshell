@@ -9,7 +9,7 @@ module Dash
 		def set(aKey,aValue=nil,aPrefix='')
 			if (aKey.is_a?(String) || aKey.is_a?(Symbol))
 				@keychain[@namespace,aPrefix.to_s+aKey.to_s] = aValue
-			elsif aKey.is_a?(Object)
+			elsif aKey.is_a?(Hash)
 				prefix = aValue || aPrefix
 				aKey.each {|k,v| set(k,v,prefix)}
 			end
