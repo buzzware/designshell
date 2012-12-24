@@ -6,7 +6,7 @@ describe "KeyChain" do
 	keyChain = nil
 
 	before do
-		keyChain = Dash::KeyChain.new('DashTest')
+		keyChain = DesignShell::KeyChain.new('DesignShellTest')
 	end
 
 	it "should write,read,check value" do

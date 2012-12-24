@@ -1,4 +1,4 @@
-module Dash
+module DesignShell
 
 	class Context
 		attr_reader :global_options,:options,:arguments,:pwd

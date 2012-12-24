@@ -1,25 +1,26 @@
 # Ensure we require the local version and not one we might have installed already
-require File.join([File.dirname(__FILE__),'lib','dash','version.rb'])
+require File.join([File.dirname(__FILE__),'lib','designshell','version.rb'])
 spec = Gem::Specification.new do |s| 
-  s.name = 'dash'
-  s.version = Dash::VERSION
+  s.name = 'designshell'
+  s.version = DesignShell::VERSION
   s.author = 'Gary McGhee'
-  s.email = 'your@email.address.com'
-  s.homepage = 'http://github.com/buzzware/dash'
+  s.email = 'contact@buzzware.com.au'
+  s.homepage = 'http://github.com/buzzware/designshell'
   s.platform = Gem::Platform::RUBY
-  s.summary = 'DaSH is the Design Shell'
+  s.summary = 'DesignShell is the shell for designers'
 # Add your other files here if you make them
   s.files = %w(
-bin/dash
-lib/dash/version.rb
-lib/dash.rb
+bin/designshell
+lib/designshell/version.rb
+lib/designshell.rb
   )
   s.require_paths << 'lib'
   s.has_rdoc = true
-  s.extra_rdoc_files = ['README.rdoc','dash.rdoc']
-  s.rdoc_options << '--title' << 'dash' << '--main' << 'README.rdoc' << '-ri'
+  s.extra_rdoc_files = ['README.rdoc','designshell.rdoc']
+  s.rdoc_options << '--title' << 'designshell' << '--main' << 'README.rdoc' << '-ri'
   s.bindir = 'bin'
-  s.executables << 'dash'
+	s.executables << 'ds'
+	s.executables << 'designshelld'
   s.add_development_dependency('rake')
   s.add_development_dependency('rspec')
   s.add_development_dependency('rspec-core')

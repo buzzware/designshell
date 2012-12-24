@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/dash.iml" filepath="$PROJECT_DIR$/dash.iml" />
+      <module fileurl="file://$REPOS$/Buzzware/13/dash-dev/dash-dev.iml" filepath="$REPOS$/Buzzware/13/dash-dev/dash-dev.iml" />
+      <module fileurl="file://$PROJECT_DIR$/designshell.iml" filepath="$PROJECT_DIR$/designshell.iml" />
     </modules>
   </component>
 </project>

@@ -1,4 +1,4 @@
-module Dash
+module DesignShell
 	class KeyChain
 
 		def initialize(aNamespace)

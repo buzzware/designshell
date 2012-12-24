@@ -1,6 +1,6 @@
 require 'bitbucket_rest_api'
 
-module Dash
+module DesignShell
 	class RepoServer
 
 		DELEGATE_METHODS = [:user,:oauth_token,:oauth_secret,:basic_auth,:login,:password,:adapter,:adapter=,:setup]

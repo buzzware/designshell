@@ -1,5 +1,5 @@
-= dash
+= designshell
 
 Generate this with
-    dash rdoc
+    ds rdoc
 After you have described your command line interface

@@ -13,17 +13,17 @@ describe "build" do
 	end
 
 	it "should build source folder into build folder" do
-		context = Dash::Context.new()
-		dash = Dash::Core.new(:context => context)
-		dash.build
+		context = DesignShell::Context.new()
+		ds = DesignShell::Core.new(:context => context)
+		ds.build
 	end
 
 	it "should commit the repository" do
-		context = Dash::Context.new()
-		repo = Dash::Repo.new
+		context = DesignShell::Context.new()
+		repo = DesignShell::Repo.new
 		repo.configure()
 		repo.clone("git@github.com:buzzware/underscore_plus.git", testFolder)
-		dash = Dash::Core.new(:context => context, :repo => repo)
-		dash.ensure_repo_open.commit_all(context)
+		ds = DesignShell::Core.new(:context => context, :repo => repo)
+		ds.ensure_repo_open.commit_all(context)
 	end
 end

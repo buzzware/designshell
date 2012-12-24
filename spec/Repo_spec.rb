@@ -17,7 +17,7 @@ describe "Repo" do
 	COMMIT_RESULT1 = "[master (root-commit) 6bdd9e1] first commit  1 files changed, 1 insertions(+), 0 deletions(-)  create mode 100644 file1.txt"
 
 	it "commit should create commit object or string message" do
-		repo = Dash::Repo.new
+		repo = DesignShell::Repo.new
 		repo.init testFolder
 
 		file1 = File.join(testFolder,'file1.txt')
@@ -32,7 +32,7 @@ describe "Repo" do
 	end
 
 	it "create a repo, add file, commit, change, commit, reset, check" do
-		repo = Dash::Repo.new
+		repo = DesignShell::Repo.new
 		repo.init testFolder
 		repo.path.should == File.expand_path(testFolder)
 
@@ -56,12 +56,12 @@ describe "Repo" do
 	end
 
 	it "should download a remote repo and check log, then re-open it and check log again" do
-		repo = Dash::Repo.new
+		repo = DesignShell::Repo.new
 		repo.clone("git@github.com:buzzware/underscore_plus.git", testFolder)
 		repo.path.should == testFolder
 		repo.log.first.class.should == Git::Object::Commit
 
-		repo = Dash::Repo.new
+		repo = DesignShell::Repo.new
 		repo.open testFolder
 		repo.path.should == testFolder
 		repo.log.first.class.should == Git::Object::Commit

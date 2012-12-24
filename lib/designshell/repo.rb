@@ -1,12 +1,12 @@
-module Dash
+module DesignShell
 	class Repo
 
 		attr_reader :git,:configured
 
 		GIT_METHODS = [:commit,:add,:reset_hard,:path,:clone,:log,:size,:branches,:status]
 
-		def initialize(aDash=nil)
-			@dash = aDash
+		def initialize(aDesignShell=nil)
+			@ds = aDesignShell
 		end
 
 		def method_missing(sym, *args, &block)

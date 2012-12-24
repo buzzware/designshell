@@ -1,4 +1,4 @@
-module Dash
+module DesignShell
 	class Core
 
 		attr_reader :repo,:configured

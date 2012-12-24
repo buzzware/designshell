@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #begin # XXX: Remove this begin/rescue before distributing your app
-require 'dash'
+require 'designshell'
 #require 'ruby-debug';debugger
 
 if ARGV.length==1 && ARGV[0].index(' ')   # fix for intellij
@@ -11,7 +11,7 @@ end
 #rescue LoadError
 #  STDERR.puts "In development, you need to use `bundle exec bin/todo` to run your app"
 #  STDERR.puts "At install-time, RubyGems will make sure lib, etc. are in the load path"
-#  STDERR.puts "Feel free to remove this message from bin/dash now"
+#  STDERR.puts "Feel free to remove this message from bin/ds now"
 #  exit 64
 #end
 
@@ -32,7 +32,7 @@ include GLI::App
 
 program_desc 'Describe your application here'
 
-#version Dash::VERSION
+#version DesignShell::VERSION
 
 #desc 'Describe some switch here'
 #switch [:s,:switch]
@@ -50,10 +50,10 @@ command :configure do |configure|
 	configure.arg_name 'none'
 	configure.command :bitbucket do |bb|
 		bb.action do |global_options,options,args|
-			context = Dash::Context.new(args)
-			repo = Dash::Repo.new
-			keyChain = Dash::KeyChain.new
-			core = Dash::Core.new(
+			context = DesignShell::Context.new(args)
+			repo = DesignShell::Repo.new
+			keyChain = DesignShell::KeyChain.new
+			core = DesignShell::Core.new(
 				:context => context,
 			  :keyChain => keyChain,
 			  :repo => repo
@@ -101,9 +101,9 @@ desc 'Describe commit here'
 arg_name 'Describe arguments to commit here'
 command :commit do |c|
   c.action do |*args|
-	  context = Dash::Context.new(args)
-	  dash = Dash::Core.new(context)
-	  dash.ensure_repo_open.commit
+	  context = DesignShell::Context.new(args)
+	  ds = DesignShell::Core.new(context)
+	  ds.ensure_repo_open.commit
   end
 end
 
@@ -134,15 +134,15 @@ end
 #	c.default_command :all
 #end
 
-# download existing repo : dash clone git://somegitrepo
-# server side repo clone : dash fork
+# download existing repo : ds clone git://somegitrepo
+# server side repo clone : ds fork
 
-# dash git ...    # talk directly to git
-# dash middleman  # talk directly to middleman
+# ds git ...    # talk directly to git
+# ds middleman  # talk directly to middleman
 
 
-# dash pull git://somegitrepo   # if no local repo, will ask "Do you wish to a) clone somegitrepo into a new folder /asds/dsa/somegitrepo or b) pull changes, except that you aren't inside a repo and haven't specified one"
-# dash fork git://somegitrepo
+# ds pull git://somegitrepo   # if no local repo, will ask "Do you wish to a) clone somegitrepo into a new folder /asds/dsa/somegitrepo or b) pull changes, except that you aren't inside a repo and haven't specified one"
+# ds fork git://somegitrepo
 
 
 #desc 'Describe clone here'

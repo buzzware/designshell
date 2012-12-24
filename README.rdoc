@@ -1,6 +1,6 @@
-= dash
+= designshell
 
 Describe your project here
 
-:include:dash.rdoc
+:include:designshell.rdoc
 

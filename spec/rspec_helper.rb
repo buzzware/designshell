@@ -1,4 +1,4 @@
-require 'dash'
+require 'designshell'
 require 'gli'
 require 'git'
 require 'buzzcore'
