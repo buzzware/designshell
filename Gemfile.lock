@@ -8,6 +8,7 @@ PATH
       git
       gli (= 2.5.0)
       highline
+      json
       middleman
       osx_keychain
       termios

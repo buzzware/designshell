@@ -1,0 +1,53 @@
+module DesignShellServer
+	class Command
+
+		attr_reader :context,:line,:command,:id,:params
+
+		def initialize(aContext,aLine,aCommandName=nil)
+			@context = aContext
+			@line = aLine
+			tl = aLine.clone
+			cmd = tl.extract!(/^[A-Z0-9_]+/)
+			@command = aCommandName || cmd
+			tl.bite! ' '
+			@id = tl.extract!(/[a-z0-9]+/)
+			tl.bite! ' '
+			@params = ::JSON.parse(tl) if @params = tl.to_nil
+		end
+
+		def execute
+			self.send @command.to_sym
+		end
+
+		def writeline(aString)
+			@context.stdout.puts aString
+		end
+
+		def prepare_cache # {:url=>'git://github.com/ddssda'}
+
+		end
+
+		def deploy
+
+		end
+
+		def DUMMY
+			id = StringUtils.random_word(8,8)
+			writeline "RECEIVED "+id
+			sleep 1
+			detail = ::JSON.generate({:this=>5, :that=>'ABC'}) #JSON.parse(document) or JSON.generate(data)
+			writeline ['PROGRESS',id,detail].join(' ')
+			sleep 1
+			detail = ::JSON.generate({:result=>123}) #JSON.parse(document) or JSON.generate(data)
+			writeline ['COMPLETE',id,detail].join(' ')
+		end
+
+
+		def DEPLOY # {}
+
+			prepare_cache
+			deploy
+		end
+
+	end
+end
