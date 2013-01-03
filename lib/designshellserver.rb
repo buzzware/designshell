@@ -1,4 +1,6 @@
 require 'buzzcore'
+require 'buzzcore_mods'
+
 #require 'termios'
 #require 'highline/import'
 

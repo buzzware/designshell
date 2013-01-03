@@ -3,6 +3,7 @@ require 'osx_keychain'
 require 'gli'
 require 'git'
 require 'buzzcore'
+require 'buzzcore_mods'
 require 'termios'
 require 'highline/import'
 
