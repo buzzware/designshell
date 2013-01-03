@@ -20,7 +20,7 @@ lib/designshell.rb
   s.rdoc_options << '--title' << 'designshell' << '--main' << 'README.rdoc' << '-ri'
   s.bindir = 'bin'
 	s.executables << 'ds'
-	s.executables << 'designshelld'
+	s.executables << 'designshelld.rb'
   s.add_development_dependency('rake')
   s.add_development_dependency('rspec')
   s.add_development_dependency('rspec-core')
