@@ -1,7 +1,7 @@
 module DesignShell
 
 	class Context
-		attr_reader :global_options,:options,:pwd,:argv,:env,:stdout,:stdin,:stderr,:credentials
+		attr_reader :global_options,:options,:pwd,:argv,:env,:stdout,:stdin,:stderr,:credentials,:key_chain
 
 		def initialize(aValues)
 			return if !aValues
@@ -14,6 +14,7 @@ module DesignShell
 			@stdin = aValues[:stdin]
 			@stderr = aValues[:stderr]
 			@credentials = aValues[:credentials]
+			@key_chain = aValues[:key_chain]
 		end
 
 

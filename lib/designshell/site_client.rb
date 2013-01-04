@@ -5,9 +5,10 @@ module DesignShell
 
 		def initialize(aContext)
 			@context = aContext
-			@dav = Net::DAV.new(MiscUtils.append_slash(@context.credentials[:site_url]), :curl => true)
+			@server_path = MiscUtils.remove_slash(@context.credentials[:site_url])
+			@dav = Net::DAV.new(MiscUtils.append_slash(@server_path), :curl => true)
 			@dav.verify_server = false
-			@dav.credentials(@context.credentials[:site_user],@context.credentials[:site_password])
+			@dav.credentials(@context.key_chain.get('site_user'),@context.key_chain.get('site_password'))
 			@deploy_status_file = '/content/.deploy-status.txt'
 		end
 
@@ -21,29 +22,33 @@ module DesignShell
 			end
 		end
 
+		def full_path(aRelativePath)
+			File.join(@server_path,aRelativePath)
+		end
+
 		def ls(aPath,aRecursive=false)
 			result = []
 			@dav.find(aPath,:recursive=>aRecursive,:suppress_errors=>false) do | item |
-			  result << item.url.to_s.bite(MiscUtils.remove_slash(@context.credentials[:site_url]))
+			  result << item.url.to_s.bite(@server_path)
 			end
 			result
 		end
 
 		def get_string(aPath)
 			begin
-				@dav.get(File.join(@context.credentials[:site_url],aPath))
+				@dav.get(full_path(aPath))
 			rescue Net::HTTPServerException => e
 				e.response.is_a?(Net::HTTPNotFound) ? nil : raise
 			end
 		end
 
 		def put_string(aPath,aString)
-			@dav.put_string(File.join(@context.credentials[:site_url],aPath),aString)
+			@dav.put_string(full_path(aPath),aString)
 		end
 
 		def delete(aPath)
 			begin
-				@dav.delete(File.join(@context.credentials[:site_url],aPath))
+				@dav.delete(full_path(aPath))
 			rescue Net::HTTPServerException => e
 				e.response.is_a?(Net::HTTPNotFound) ? nil : raise
 			end

@@ -4,17 +4,23 @@ require 'securerandom'
 
 describe "SiteClient" do
 
-	it "should connect and list" do
-		@context = DesignShell::Context.new(:credentials=>Credentials.new('designshell'))
+	before do
+		creds = Credentials.new('designshell')
+		key_chain = DesignShell::KeyChain.new('DesignShellTest')
+		#key_chain.set('site_user',creds[:site_user])
+		#key_chain.set('site_password',creds[:site_password])
+
+		@context = DesignShell::Context.new(:key_chain=>key_chain, :credentials=>creds)
 		@client = DesignShell::SiteClient.new(@context)
+	end
+
+	it "should connect and list" do
 		result = @client.ls('.')
 		result.include?('/content/').should==true
 		result.include?('/template/').should==true
 	end
 
 	it "should put a string to a file, then get and check" do
-		@context = DesignShell::Context.new(:credentials=>Credentials.new('designshell'))
-		@client = DesignShell::SiteClient.new(@context)
 		content = StringUtils.random_word(8,8)
 		path = '/content/testfile.txt'
 		@client.put_string(path,content)
@@ -24,8 +30,6 @@ describe "SiteClient" do
 	end
 
 	it "should delete files" do
-		@context = DesignShell::Context.new(:credentials=>Credentials.new('designshell'))
-		@client = DesignShell::SiteClient.new(@context)
 		content = StringUtils.random_word(8,8)
 		path = '/content/testfile.txt'
 
@@ -37,8 +41,6 @@ describe "SiteClient" do
 	end
 
 	it "should read and write the deploy_status" do
-		@context = DesignShell::Context.new(:credentials=>Credentials.new('designshell'))
-		@client = DesignShell::SiteClient.new(@context)
 		@client.deploy_status_file = '/content/.fake_deploy_status.txt'
 
 		@client.delete @client.deploy_status_file
@@ -50,9 +52,6 @@ describe "SiteClient" do
 	end
 
 	it "should upload and download a file and check" do
-		@context = DesignShell::Context.new(:credentials=>Credentials.new('designshell'))
-		@client = DesignShell::SiteClient.new(@context)
-
 		content = SecureRandom.random_bytes(8000)
 		tempfile = MiscUtils.make_temp_file(nil,nil,content)
 		remote_path = '/content/testfile.bin'
