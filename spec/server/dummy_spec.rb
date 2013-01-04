@@ -1,5 +1,5 @@
 require "rspec"
-require "../rspec_helper"
+require "rspec_helper"
 
 describe "DUMMY command" do
 

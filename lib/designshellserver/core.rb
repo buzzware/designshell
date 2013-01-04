@@ -25,5 +25,14 @@ module DesignShellServer
 			end
 		end
 
+		def cache_dir
+			@cache_dir ||= MiscUtils.append_slash(@context.credentials[:cache_dir] || MiscUtils.make_temp_dir('DesignShellServer'))
+		end
+
+		def working_dir_from_site(aSite)
+			aSite.gsub!(/[^a-zA-Z0-9.\-_]/,'_')
+			File.join(cache_dir,aSite)
+		end
+
 	end
 end

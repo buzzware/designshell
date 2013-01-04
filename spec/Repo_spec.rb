@@ -57,7 +57,8 @@ describe "Repo" do
 
 	it "should download a remote repo and check log, then re-open it and check log again" do
 		repo = DesignShell::Repo.new
-		repo.clone("git@github.com:buzzware/underscore_plus.git", testFolder)
+		url = "git@github.com:buzzware/underscore_plus.git"
+		repo.clone(url, testFolder)
 		repo.path.should == testFolder
 		repo.log.first.class.should == Git::Object::Commit
 
@@ -65,6 +66,7 @@ describe "Repo" do
 		repo.open testFolder
 		repo.path.should == testFolder
 		repo.log.first.class.should == Git::Object::Commit
+		repo.origin.url==url
 	end
 
 

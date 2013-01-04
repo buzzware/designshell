@@ -3,7 +3,7 @@ module DesignShell
 
 		attr_reader :git,:configured
 
-		GIT_METHODS = [:commit,:add,:reset_hard,:path,:clone,:log,:size,:branches,:status]
+		GIT_METHODS = [:commit,:add,:reset_hard,:path,:clone,:log,:size,:branches,:status,:remotes,:pull,:fetch]
 
 		def initialize(aDesignShell=nil)
 			@ds = aDesignShell
@@ -65,6 +65,23 @@ module DesignShell
 
 		def path
 			@git.dir.path
+		end
+
+		def origin
+			@git.remotes.find {|r| r.name=='origin'}
+		end
+
+		def checkout(commit=nil,branch=nil)
+			specific_commit = !!commit && !commit.index('HEAD')
+			if specific_commit
+				@git.checkout commit
+			else
+				@git.checkout(branch || 'master')
+			end
+		end
+
+		def head
+			@git.log.first
 		end
 	end
 end
