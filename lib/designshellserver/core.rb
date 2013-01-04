@@ -7,10 +7,10 @@ module DesignShellServer
 			@context = aContext
 		end
 
-		def make_command(aContext,aLine)
+		def make_command(aLine)
 			command_name = aLine.scan(/^[A-Z0-9_]+/).pop.to_nil
 			return nil unless command_name && DesignShellServer::Command.instance_methods.include?(command_name)
-			return DesignShellServer::Command.new(aContext,aLine,command_name)
+			return DesignShellServer::Command.new(self,aLine,command_name)
 		end
 
 		def run
@@ -18,7 +18,7 @@ module DesignShellServer
 
 			@context.stdin.each_line do |line| line.chomp! "\n"
 
-				command = make_command(context,line)
+				command = make_command(@context,line)
 				command.execute
 
 			@context.stdout.print "\n>"

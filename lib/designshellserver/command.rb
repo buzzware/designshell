@@ -1,10 +1,11 @@
 module DesignShellServer
 	class Command
 
-		attr_reader :context,:line,:command,:id,:params
+		attr_reader :core,:context,:line,:command,:id,:params
 
-		def initialize(aContext,aLine,aCommandName=nil)
-			@context = aContext
+		def initialize(aCore,aLine,aCommandName=nil)
+			@core = aCore
+			@context = aCore.context
 			@line = aLine
 			tl = aLine.clone
 			cmd = tl.extract!(/^[A-Z0-9_]+/)
@@ -44,7 +45,6 @@ module DesignShellServer
 
 
 		def DEPLOY # {}
-
 			prepare_cache
 			deploy
 		end

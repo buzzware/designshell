@@ -12,28 +12,29 @@ describe "DUMMY command" do
 		  :stderr=>$stderr,
 		  :credentials=>Credentials.new('designshell')
 		)
+		@core = DesignShellServer::Core.new(@context)
 		#$stdout.sync=true   # no buffer delay
 	end
 
 	it "should crack correctly" do
-		command = DesignShellServer::Command.new(@context,'DUMMY')
+		command = DesignShellServer::Command.new(@core,'DUMMY')
 		command.command.should=='DUMMY'
 		command.id.should==nil
 		command.params.should==nil
 
-		command = DesignShellServer::Command.new(@context,'DUMMY sadf567as756df')
+		command = DesignShellServer::Command.new(@core,'DUMMY sadf567as756df')
 		command.command.should=='DUMMY'
 		command.id.should=='sadf567as756df'
 		command.params.should==nil
 
-		command = DesignShellServer::Command.new(@context,'DUMMY sadf567as756df {"this": 345345, "that": true}')
+		command = DesignShellServer::Command.new(@core,'DUMMY sadf567as756df {"this": 345345, "that": true}')
 		command.command.should=='DUMMY'
 		command.id.should=='sadf567as756df'
 		command.params.should=={"this"=>345345, "that"=>true}
 	end
 
 	it "should call dummy command" do
-		command = DesignShellServer::Command.new(@context,'DUMMY','DUMMY')
+		command = DesignShellServer::Command.new(@core,'DUMMY','DUMMY')
 		command.command.should=='DUMMY'
 		command.id.should==nil
 		command.params.should==nil
