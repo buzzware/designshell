@@ -1,14 +1,14 @@
 module DesignShell
 	class SiteClient
 
-		attr_reader :deploy_status_file
+		attr_accessor :deploy_status_file
 
 		def initialize(aContext)
 			@context = aContext
 			@dav = Net::DAV.new(MiscUtils.append_slash(@context.credentials[:site_url]), :curl => true)
 			@dav.verify_server = false
 			@dav.credentials(@context.credentials[:site_user],@context.credentials[:site_password])
-			@deploy_status_file = '/content/deploy-status.txt'
+			@deploy_status_file = '/content/.deploy-status.txt'
 		end
 
 		DAV_METHODS = [:find]

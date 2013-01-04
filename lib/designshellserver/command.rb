@@ -23,7 +23,7 @@ module DesignShellServer
 			@context.stdout.puts aString
 		end
 
-		def prepare_cache # {:url=>'git://github.com/ddssda'}
+		def prepare_cache(aParams) # {:url=>'git://github.com/ddssda', :branch=>'master', :commit=>'ad452bcd'}
 
 		end
 

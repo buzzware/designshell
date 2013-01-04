@@ -4,29 +4,12 @@
 #STDERR.write "user #{user} authorized\n"
 
 require "rubygems"
-gem 'json'
-
-require 'json'
 
 require 'designshellserver'
 
 #trap("SIGHUP") { abort }
 
-
-def make_command(aContext,aLine)
-	command_name = aLine.scan(/^[A-Z0-9_]+/).pop.to_nil
-	return nil unless command_name && DesignShellServer::Command.instance_methods.include?(command_name)
-	return DesignShellServer::Command.new(aContext,aLine,command_name)
-end
-
 context = DesignShell::Context.new({:argv=>ARGV.clone, :env=>ENV.clone, :stdout=>$stdout, :stdin=>$stdin, :stderr=>$stderr})
+core = DesignShellServer::Core.new(context)
+core.run
 
-$stdout.print "\n>"
-
-$stdin.each_line do |line| line.chomp! "\n"
-
-	command = make_command(context,line)
-	command.execute
-
-  $stdout.print "\n>"
-end

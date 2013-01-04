@@ -1,8 +1,6 @@
 require "rspec"
-require "../rspec_helper"
+require "rspec_helper"
 require 'securerandom'
-
-
 
 describe "SiteClient" do
 
@@ -22,6 +20,7 @@ describe "SiteClient" do
 		@client.put_string(path,content)
 		content2 = @client.get_string(path)
 		content2.should == content
+		@client.delete(path)
 	end
 
 	it "should delete files" do
@@ -40,12 +39,14 @@ describe "SiteClient" do
 	it "should read and write the deploy_status" do
 		@context = DesignShell::Context.new(:credentials=>Credentials.new('designshell'))
 		@client = DesignShell::SiteClient.new(@context)
+		@client.deploy_status_file = '/content/.fake_deploy_status.txt'
 
 		@client.delete @client.deploy_status_file
 		@client.deploy_status == {}
 		content1 = {"commit" => "deadbeef"}
 		@client.deploy_status = content1
 		@client.deploy_status.should == content1
+		@client.delete @client.deploy_status_file
 	end
 
 	it "should upload and download a file and check" do
@@ -59,6 +60,7 @@ describe "SiteClient" do
 		tempfile2 = MiscUtils.temp_file
 		@client.get_file(remote_path,tempfile2)
 		`cmp #{tempfile} #{tempfile2}`.should==''
+		@client.delete remote_path
 	end
 
 end
