@@ -41,12 +41,13 @@
     <orderEntry type="library" scope="PROVIDED" name="linecache (v0.46, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="listen (v0.5.3, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="maruku (v0.6.1, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="middleman (v3.0.6, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="middleman (v3.0.7, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="middleman-core (v3.0.6, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="middleman-more (v3.0.6, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="middleman-sprockets (v3.0.4, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="multi_json (v1.5.0, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="multipart-post (v1.1.5, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="net_dav (v0.5.0, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nokogiri (v1.5.5, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="open4 (v1.3.0, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="osx_keychain (v1.0.0, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />

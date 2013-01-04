@@ -4,3 +4,8 @@ Describe your project here
 
 :include:designshell.rdoc
 
+
+install designshelld like this in ~/.ssh/authorized_keys2 :
+
+command="/home/dashd/designshell/bin/designshelld.example.sh",no-port-forwarding,no-X11-forwarding,no-agent-forwarding ssh-rsa AAAAB3NzaC...
+

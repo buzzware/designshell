@@ -19,11 +19,7 @@ def make_command(aContext,aLine)
 	return DesignShellServer::Command.new(aContext,aLine,command_name)
 end
 
-
-#$stdout.print ARGV.inspect
-#$stdout.print ENV.inspect
-
-context = DesignShellServer::Context.new({:argv=>ARGV.clone, :env=>ENV.clone, :stdout=>$stdout, :stdin=>$stdin, :stderr=>$stderr})
+context = DesignShell::Context.new({:argv=>ARGV.clone, :env=>ENV.clone, :stdout=>$stdout, :stdin=>$stdin, :stderr=>$stderr})
 
 $stdout.print "\n>"
 

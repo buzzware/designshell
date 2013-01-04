@@ -50,7 +50,7 @@ command :configure do |configure|
 	configure.arg_name 'none'
 	configure.command :bitbucket do |bb|
 		bb.action do |global_options,options,args|
-			context = DesignShell::Context.new(args)
+			context = DesignShell::Context.new(:argv=>args)
 			repo = DesignShell::Repo.new
 			keyChain = DesignShell::KeyChain.new
 			core = DesignShell::Core.new(
@@ -101,7 +101,7 @@ desc 'Describe commit here'
 arg_name 'Describe arguments to commit here'
 command :commit do |c|
   c.action do |*args|
-	  context = DesignShell::Context.new(args)
+	  context = DesignShell::Context.new(:argv=>args)
 	  ds = DesignShell::Core.new(context)
 	  ds.ensure_repo_open.commit
   end

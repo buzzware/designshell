@@ -4,12 +4,13 @@ require "../rspec_helper"
 describe "DUMMY command" do
 
 	before do
-		@context = DesignShellServer::Context.new(
+		@context = DesignShell::Context.new(
 			:argv=>[],
 			:env=>{},
 		  :stdout=>$stdout,
 		  :stdin=>$stdin,
-		  :stderr=>$stderr
+		  :stderr=>$stderr,
+		  :credentials=>Credentials.new('designshell')
 		)
 		#$stdout.sync=true   # no buffer delay
 	end

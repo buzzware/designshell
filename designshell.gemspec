@@ -37,5 +37,6 @@ lib/designshell.rb
 	s.add_runtime_dependency('bitbucket_rest_api')
 	s.add_runtime_dependency('osx_keychain')
 	s.add_runtime_dependency('json')
+	s.add_runtime_dependency('net_dav')
 
 end
