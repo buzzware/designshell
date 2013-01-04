@@ -75,5 +75,17 @@ module DesignShell
 			MiscUtils.string_to_file(s,aLocalFile)
 		end
 
+		def upload_files(aLocalDir,aFiles)
+			aFiles.each do |f|
+				put_file(File.join(aLocalDir,f),f)
+			end
+		end
+
+		def delete_files(aPaths)
+			aPaths.each do |p|
+				delete(p)
+			end
+		end
+
 	end
 end

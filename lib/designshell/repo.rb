@@ -1,3 +1,7 @@
+Git::Lib.class_eval do
+	public :command, :command_lines
+end
+
 module DesignShell
 	class Repo
 
@@ -82,6 +86,14 @@ module DesignShell
 
 		def head
 			@git.log.first
+		end
+
+		# git --no-pager diff --name-status 26bb87c3981 191d64820f2b
+		# result is array of paths prefixed with status letter then a tab
+		# see http://git-scm.com/docs/git-diff under --diff-filter=
+		# Added (A), Copied (C), Deleted (D), Modified (M), Renamed (R), have their type (i.e. regular file, symlink, submodule, ...) changed (T)
+		def changesBetweenCommits(aFromCommit, aToCommit)
+			@git.lib.command_lines('diff',['--name-status',aFromCommit,aToCommit])
 		end
 	end
 end

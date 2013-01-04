@@ -69,5 +69,18 @@ describe "Repo" do
 		repo.origin.url==url
 	end
 
+	it "should download a remote repo and get diffs between commits" do
+		repo = DesignShell::Repo.new
+		url = "git@github.com:buzzware/underscore_plus.git"
+		repo.clone(url, testFolder)
+
+		commit1 = "4b133ff8825bbd488ba61fa3e3b82a5fa746ac6a"
+		commit2 = "d1b8440dc730ceb4471fbe7c42ccfac94ea12799"
+		changes = repo.changesBetweenCommits(commit1,commit2)
+		changes.should==["A\tunderscore_plus.js"]
+		changes = repo.changesBetweenCommits(commit2,commit1)
+		changes.should==["D\tunderscore_plus.js"]
+	end
+
 
 end

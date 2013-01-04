@@ -62,4 +62,6 @@ describe "SiteClient" do
 		@client.delete remote_path
 	end
 
+	it "should put file even when folder doesn't exist"
+
 end

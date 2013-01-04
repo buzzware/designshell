@@ -16,6 +16,10 @@ module DesignShellServer
 			@params = ::JSON.parse(tl) if @params = tl.to_nil
 		end
 
+		def site_client
+			@site_client ||= DesignShell::SiteClient.new(@context)
+		end
+
 		def execute
 			self.send @command.to_sym
 		end
@@ -59,8 +63,56 @@ module DesignShellServer
 		end
 
 		def deploy
-
+			ds = site_client.deploy_status
+			site_repo_url = ds && ds['repo_url'].to_nil
+			site_branch = ds && ds['branch'].to_nil
+			site_commit = ds && ds['commit'].to_nil
+			repo_url = @repo.url
+			if site_repo_url && site_repo_url==repo_url && site_branch && site_commit
+				# incremental
+				changes = @repo.changesBetweenCommits(site_commit,@repo.head.to_s)
+				uploads,deletes = convertChangesToUploadsDeletes(changes)
+				site_client.delete_files(deletes)
+				site_client.upload_files(@repo.path,uploads)
+			else
+				# complete
+				# for now, just deploy all files in wd, creating folders as necessary
+				# later, delete remote files not in wd except for eg. .deploy-status.xml and perhaps upload folders
+				uploads = MiscUtils.recursive_file_list(@repo.path,false)
+				uploads.delete_if {|p| p.begins_with? '.git'}
+				site_client.upload_files(@repo.path,uploads)
+			end
 		end
+
+		# Added (A), Copied (C), Deleted (D), Modified (M), Renamed (R), have their type (i.e. regular file, symlink, submodule, ...) changed (T)
+		def convertChangesToUploadsDeletes(changes)
+			uploads = []
+			deletes = []
+			changes.each do |line|
+				continue if line==""
+				tabi = line.index("\t")
+				status = line[0,tabi]
+				path = line[tabi+1..-1]
+				if status.index('D')
+					deletes << path
+				else
+					uploads << path
+				end
+			end
+			return uploads,deletes
+		end
+
+		#def determine_deploy_status
+		#	@site_deploy_status = site_client.deploy_status
+		#	if (!@site_deploy_status)
+		#		@deploy_status = {
+		#			:repo_url => @params['repo_url'],
+		#		  :branch => 'master',
+		#		  :
+		#		}
+		#	end
+		#
+		#end
 
 		def DUMMY
 			id = StringUtils.random_word(8,8)
@@ -77,7 +129,7 @@ module DesignShellServer
 		def DEPLOY # {}
 			prepare_cache
 			checkout_branch_commit
-			deploy
+
 		end
 
 	end
