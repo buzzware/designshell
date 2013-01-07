@@ -17,7 +17,7 @@ module DesignShellServer
 		end
 
 		def site_client
-			@site_client ||= DesignShell::SiteClient.new(@context)
+			@site_client ||= DesignShell::SiteClient.new(@context)  # this is not correct now - must pass in hash of values not context
 		end
 
 		def execute
@@ -28,6 +28,8 @@ module DesignShellServer
 			@context.stdout.puts aString
 		end
 
+		# Prepares repo in cache dir for site
+		# requires params: repo_url,site
 		def prepare_cache # {:url=>'git://github.com/ddssda', :branch=>'master', :commit=>'ad452bcd'}
 			url = @params['repo_url']
 			site = @params['site']
@@ -52,22 +54,52 @@ module DesignShellServer
 			end
 		end
 
-		# should call prepare_cache first to create @repo
+		# Switches @repo to given branch and/or commit
+		# Should call prepare_cache first to create @repo
+		# requires params: branch and/or commit
 		def checkout_branch_commit
-			url = @params['repo_url']
-			site = @params['site']
-			wd = @core.working_dir_from_site(site)
+			#url = @params['repo_url']
+			#site = @params['site']
+			#wd = @core.working_dir_from_site(site)
 			branch = @params['branch']
 			commit = @params['commit']
 			@repo.checkout(commit,branch)
 		end
 
+		# Determines whether to do an incremental or complete deploy and deploys current files in repo working dir to repo_url
+		# requires :
+		#   uses: site_client.deploy_status
+		#   params: deploy_cred
 		def deploy
+			deployPlanString = @repo.get_file_content('deploy_plan.xml',@params['commit']||@params['branch'])
+			xmlRoot = XmlUtils.get_xml_root(deployPlanString)
+			planNode = XmlUtils.single_node(xmlRoot,'plan')
+			deployNode = XmlUtils.single_node(xmlRoot,'deploy')
+			deploy_cred = {}
+			REXML::XPath.each(deployNode,'credential') do |n|
+				# n['name'], n['key'], n.text
+				next unless n['name']
+				if text = n.text.to_nil             # value in node
+					deploy_creds[n['name']] = n.text
+				else                                # value in @params['deploy_creds']
+					key = n['key'] || n['name']
+					#deploy_creds[n['name']] =
+				end
+			end
+
+			# select plan
+			# for each deploy
+			# create client for kind/method
+			# pass @context, @params, @repo and deploy block to client.configure
+			# call client.deploy
+
+			# most of this should be moved to BigCommerceDeployMethod class
 			ds = site_client.deploy_status
 			site_repo_url = ds && ds['repo_url'].to_nil
 			site_branch = ds && ds['branch'].to_nil
 			site_commit = ds && ds['commit'].to_nil
 			repo_url = @repo.url
+			# @todo must limit uploads to build folder
 			if site_repo_url && site_repo_url==repo_url && site_branch && site_commit
 				# incremental
 				changes = @repo.changesBetweenCommits(site_commit,@repo.head.to_s)
@@ -129,7 +161,7 @@ module DesignShellServer
 		def DEPLOY # {}
 			prepare_cache
 			checkout_branch_commit
-
+			deploy
 		end
 
 	end

@@ -95,5 +95,9 @@ module DesignShell
 		def changesBetweenCommits(aFromCommit, aToCommit)
 			@git.lib.command_lines('diff',['--name-status',aFromCommit,aToCommit])
 		end
+
+		def get_file_content(aPath,aCommitOrBranch=nil)
+			@git.lib.command('show',[[aCommitOrBranch,aPath].compact.join(':')]) rescue nil
+		end
 	end
 end

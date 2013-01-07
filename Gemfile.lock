@@ -10,6 +10,7 @@ PATH
       highline
       json
       middleman
+      net-ssh
       net_dav
       osx_keychain
       termios
@@ -117,6 +118,7 @@ GEM
       sprockets-sass (~> 0.9.0)
     multi_json (1.5.0)
     multipart-post (1.1.5)
+    net-ssh (2.6.2)
     net_dav (0.5.0)
       nokogiri (>= 1.3.0)
     nokogiri (1.5.6)
@@ -132,7 +134,7 @@ GEM
     padrino-helpers (0.10.7)
       i18n (~> 0.6)
       padrino-core (= 0.10.7)
-    rack (1.4.1)
+    rack (1.4.2)
     rack-protection (1.3.2)
       rack
     rack-test (0.6.2)
@@ -157,7 +159,7 @@ GEM
       ruby-debug-base (~> 0.10.4.0)
     ruby-debug-base (0.10.4)
       linecache (>= 0.3)
-    sass (3.2.4)
+    sass (3.2.5)
     simple_oauth (0.2.0)
     sinatra (1.3.3)
       rack (~> 1.3, >= 1.3.6)

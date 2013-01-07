@@ -25,6 +25,7 @@ describe "RepoServer" do
 		#  :password => 'user password'
 		#},'RepoServer.')
 		repoServer = DesignShell::RepoServer.new
+		# should move values to credentials that looks up keyChain
 		values = keyChain.get([:oauth_token,:oauth_secret,:login,:password],'RepoServer.').symbolize_keys
 		repoServer.setup(values)
 

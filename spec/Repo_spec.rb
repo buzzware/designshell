@@ -82,5 +82,24 @@ describe "Repo" do
 		changes.should==["D\tunderscore_plus.js"]
 	end
 
+	it "should get contents of a given file from a given commit" do
+		repo = DesignShell::Repo.new
+		url = "git@github.com:buzzware/underscore_plus.git"
+		repo.clone(url, testFolder)
+
+		commit1 = "4b133ff8825bbd488ba61fa3e3b82a5fa746ac6a"
+		commit2 = "d1b8440dc730ceb4471fbe7c42ccfac94ea12799"
+		file1 = "README.md"
+		file2 = "underscore_plus.js"
+
+		readme = repo.get_file_content(file1,commit1)
+		readme.is_a?(String).should==true
+		readme.size.should > 0
+		code = repo.get_file_content(file2,commit1)
+		code.should==nil
+		code = repo.get_file_content(file2,commit2)
+		code.is_a?(String).should==true
+		code.size.should > 0
+	end
 
 end

@@ -3,12 +3,15 @@ module DesignShell
 
 		attr_accessor :deploy_status_file
 
-		def initialize(aContext)
-			@context = aContext
-			@server_path = MiscUtils.remove_slash(@context.credentials[:site_url])
+		def initialize(aConfig)
+			#@context = aContext
+			@server_path = MiscUtils.remove_slash(aConfig[:site_url])
+			site_username = aConfig[:site_username]
+			site_password = aConfig[:site_password]
+
 			@dav = Net::DAV.new(MiscUtils.append_slash(@server_path), :curl => true)
 			@dav.verify_server = false
-			@dav.credentials(@context.key_chain.get('site_user'),@context.key_chain.get('site_password'))
+			@dav.credentials(site_username,site_password)
 			@deploy_status_file = '/content/.deploy-status.txt'
 		end
 

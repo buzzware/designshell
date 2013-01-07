@@ -3,6 +3,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$REPOS$/Buzzware/13/dash-dev" vcs="svn" />
+    <mapping directory="$REPOS$/testmart" vcs="Git" />
   </component>
 </project>
 

@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$REPOS$/Buzzware/13/dash-dev/dash-dev.iml" filepath="$REPOS$/Buzzware/13/dash-dev/dash-dev.iml" />
       <module fileurl="file://$PROJECT_DIR$/designshell.iml" filepath="$PROJECT_DIR$/designshell.iml" />
+      <module fileurl="file://$PROJECT_DIR$/testmart.iml" filepath="$PROJECT_DIR$/testmart.iml" />
     </modules>
   </component>
 </project>

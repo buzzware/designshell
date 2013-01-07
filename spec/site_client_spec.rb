@@ -11,7 +11,11 @@ describe "SiteClient" do
 		#key_chain.set('site_password',creds[:site_password])
 
 		@context = DesignShell::Context.new(:key_chain=>key_chain, :credentials=>creds)
-		@client = DesignShell::SiteClient.new(@context)
+		@client = DesignShell::SiteClient.new({
+			:site_url => creds[:bigcommerce_sandbox_url],
+			:site_username => creds[:bigcommerce_sandbox_username],
+			:site_password => creds[:bigcommerce_sandbox_password]
+		})
 	end
 
 	it "should connect and list" do
