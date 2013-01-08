@@ -7,7 +7,7 @@ module DesignShell
 			return if !aValues
 			@global_options = aValues[:global_options]
 			@options = aValues[:options]
-			@pwd = Dir.pwd
+			@pwd = MiscUtils.real_path(Dir.pwd)
 			@argv = aValues[:argv]
 			@env = aValues[:env]
 			@stdout = aValues[:stdout]
@@ -37,6 +37,11 @@ module DesignShell
     ensure
       @stdout = stdout_before
     end
+
+		def find_git_root
+			git_folder = MiscUtils.find_upwards(@pwd,'.git')
+			return git_folder && git_folder.chomp('/.git')
+		end
 
 	end
 

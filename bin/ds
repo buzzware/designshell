@@ -50,7 +50,7 @@ command :configure do |configure|
 	configure.arg_name 'none'
 	configure.command :bitbucket do |bb|
 		bb.action do |global_options,options,args|
-			context = DesignShell::Context.new(:argv=>args)
+			context = DesignShell::Context.new(:global_options=>global_options,:options=>options,:argv=>args)
 			repo = DesignShell::Repo.new
 			keyChain = DesignShell::KeyChain.new
 			core = DesignShell::Core.new(

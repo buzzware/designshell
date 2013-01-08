@@ -61,4 +61,34 @@ describe "KeyChain" do
 		keyChain.get('testKey2').should==value2
 	end
 
+DEPLOY_XML = <<EOS
+<deploy>
+	<kind>BigCommerce</kind>
+	<method>WebDav</method>
+	<fromPath>/build/bigcommerce</fromPath>
+	<toPath>/</toPath>
+	<item name="itemX">some item x</item>
+	<item name="itemY" key="itemYYY">YYY</item>
+	<item name="itemZ"></item>
+	<item name="itemZZ"/>
+</deploy>
+EOS
+
+	it "should support DesignShell::Utils.lookupItems" do
+		values = {
+			'itemX' => 'never read this',
+			'itemY' => 'never read this',
+			'itemYYY' => 'YYYYY',
+			'itemZ' => 'ZZZ',
+			'itemZZ' => 'ZZZZZ',
+		}
+		keyChain.set(values)
+		deployXml = XmlUtils.get_xml_root(DEPLOY_XML)
+		result = DesignShell::Utils.lookupItems(deployXml,keyChain)
+		result['itemX'].should=='some item x'
+		result['itemY'].should=='YYY'   # text value overrides keychain
+		result['itemZ'].should==values['itemZ']
+		result['itemZZ'].should==values['itemZZ']
+	end
+
 end

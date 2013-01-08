@@ -7,6 +7,7 @@ require 'buzzcore_mods'
 require 'termios'
 require 'highline/import'
 
+require 'designshell/utils'
 require 'designshell/context'
 require 'designshell/key_chain'
 require 'designshell/repo'

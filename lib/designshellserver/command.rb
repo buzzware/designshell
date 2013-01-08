@@ -75,17 +75,9 @@ module DesignShellServer
 			xmlRoot = XmlUtils.get_xml_root(deployPlanString)
 			planNode = XmlUtils.single_node(xmlRoot,'plan')
 			deployNode = XmlUtils.single_node(xmlRoot,'deploy')
-			deploy_cred = {}
-			REXML::XPath.each(deployNode,'credential') do |n|
-				# n['name'], n['key'], n.text
-				next unless n['name']
-				if text = n.text.to_nil             # value in node
-					deploy_creds[n['name']] = n.text
-				else                                # value in @params['deploy_creds']
-					key = n['key'] || n['name']
-					#deploy_creds[n['name']] =
-				end
-			end
+			deploy_cred = DesignShell::Utils.lookupItems(deployNode,@context.key_chain)
+
+
 
 			# select plan
 			# for each deploy
