@@ -7,7 +7,7 @@ module DesignShell
 
 		attr_reader :git,:configured
 
-		GIT_METHODS = [:commit,:add,:reset_hard,:path,:clone,:log,:size,:branches,:status,:remotes,:pull,:fetch]
+		GIT_METHODS = [:commit,:add,:reset_hard,:path,:clone,:log,:size,:branches,:status,:remotes,:pull,:fetch,:push]
 
 		def initialize(aDesignShell=nil)
 			@ds = aDesignShell
@@ -50,7 +50,7 @@ module DesignShell
 			result = begin
 				@git.commit_all(*args)
 			rescue Git::GitExecuteError => e
-				if e.message.index("nothing to commit (working directory clean)") >= 0
+				if e.message.index("nothing to commit (working directory clean)")
 					nil
 				else
 					raise e
@@ -75,6 +75,10 @@ module DesignShell
 			@git.remotes.find {|r| r.name=='origin'}
 		end
 
+		def url
+			(o = origin) && o.url
+		end
+
 		def checkout(commit=nil,branch=nil)
 			specific_commit = !!commit && !commit.index('HEAD')
 			if specific_commit
@@ -97,7 +101,7 @@ module DesignShell
 		end
 
 		def get_file_content(aPath,aCommitOrBranch=nil)
-			@git.lib.command('show',[[aCommitOrBranch,aPath].compact.join(':')]) rescue nil
+			@git.lib.command('show',[[aCommitOrBranch||'master',aPath].join(':')]) rescue nil
 		end
 	end
 end

@@ -5,7 +5,7 @@ module DesignShellServer
 
 		def initialize(aCore,aLine,aCommandName=nil)
 			@core = aCore
-			@context = aCore.context
+			@context = aCore && aCore.context
 			@line = aLine
 			tl = aLine.clone
 			cmd = tl.extract!(/^[A-Z0-9_]+/)
@@ -16,9 +16,9 @@ module DesignShellServer
 			@params = ::JSON.parse(tl) if @params = tl.to_nil
 		end
 
-		def site_client
-			@site_client ||= DesignShell::SiteClient.new(@context)  # this is not correct now - must pass in hash of values not context
-		end
+		#def site_client
+		#	@site_client ||= DesignShell::SiteClient.new(@context)  # this is not correct now - must pass in hash of values not context
+		#end
 
 		def execute
 			self.send @command.to_sym
@@ -71,42 +71,56 @@ module DesignShellServer
 		#   uses: site_client.deploy_status
 		#   params: deploy_cred
 		def deploy
-			deployPlanString = @repo.get_file_content('deploy_plan.xml',@params['commit']||@params['branch'])
+			deployPlanString = @repo.get_file_content('.deploy_plan.xml',@params['commit']||@params['branch'])
 			xmlRoot = XmlUtils.get_xml_root(deployPlanString)
-			planNode = XmlUtils.single_node(xmlRoot,'plan')
-			deployNode = XmlUtils.single_node(xmlRoot,'deploy')
-			deploy_cred = DesignShell::Utils.lookupItems(deployNode,@context.key_chain)
-
-
-
 			# select plan
+			planNode = XmlUtils.single_node(xmlRoot,'plan')
 			# for each deploy
+			deployNode = XmlUtils.single_node(planNode,'deploy')
 			# create client for kind/method
-			# pass @context, @params, @repo and deploy block to client.configure
-			# call client.deploy
-
-			# most of this should be moved to BigCommerceDeployMethod class
-			ds = site_client.deploy_status
+			@site_client = DesignShell::SiteClient.new({
+				:site_url => @params['site_url'],
+				:site_username => @params['site_username'],
+				:site_password => @params['site_password'],
+			})
+			ds = @site_client.deploy_status
 			site_repo_url = ds && ds['repo_url'].to_nil
 			site_branch = ds && ds['branch'].to_nil
 			site_commit = ds && ds['commit'].to_nil
 			repo_url = @repo.url
 			# @todo must limit uploads to build folder
+			fromPath = MiscUtils.append_slash(XmlUtils.peek_node_value(deployNode,'fromPath','/'))    # eg. /build/bigcommerce effectively selects a subfolder that should be debased
+			toPath = MiscUtils.append_slash(XmlUtils.peek_node_value(deployNode,'toPath','/'))    # eg. / effectively the new base for these files
 			if site_repo_url && site_repo_url==repo_url && site_branch && site_commit
 				# incremental
-				changes = @repo.changesBetweenCommits(site_commit,@repo.head.to_s)
+				changes = @repo.changesBetweenCommits(@site_client,@repo.head.to_s)
 				uploads,deletes = convertChangesToUploadsDeletes(changes)
-				site_client.delete_files(deletes)
-				site_client.upload_files(@repo.path,uploads)
+				uploads.delete_if { |fp| !fp.begins_with?(fromPath) }
+				deletes.delete_if { |fp| !fp.begins_with?(fromPath) }
+				@site_client.delete_files(deletes,fromPath,toPath)
+				@site_client.upload_files(@repo.path,uploads,fromPath,toPath)
 			else
 				# complete
 				# for now, just deploy all files in wd, creating folders as necessary
 				# later, delete remote files not in wd except for eg. .deploy-status.xml and perhaps upload folders
-				uploads = MiscUtils.recursive_file_list(@repo.path,false)
-				uploads.delete_if {|p| p.begins_with? '.git'}
-				site_client.upload_files(@repo.path,uploads)
+				uploads = MiscUtils.recursive_file_list(@repo.path,false).map {|fp| '/'+fp}
+				uploads.delete_if do |fp|
+					!fp.begins_with?(fromPath) || fp.begins_with?('/.git')
+				end
+				@site_client.upload_files(@repo.path,uploads,fromPath,toPath)
 			end
 		end
+
+		#def filterAndRebase(aFilePaths, aFromPath, aToPath)
+		#	aFromPath = MiscUtils.append_slash(aFromPath)
+		#	aToPath = MiscUtils.append_slash(aToPath)
+		#	result = []
+		#	aFilePaths.each do |fp|
+		#		next unless fp.begins_with? aFromPath
+		#		result << MiscUtils.path_rebase(fp,aFromPath,aToPath)
+		#	end
+		#	result
+		#end
 
 		# Added (A), Copied (C), Deleted (D), Modified (M), Renamed (R), have their type (i.e. regular file, symlink, submodule, ...) changed (T)
 		def convertChangesToUploadsDeletes(changes)

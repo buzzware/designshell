@@ -30,6 +30,7 @@ module DesignShellServer
 		end
 
 		def working_dir_from_site(aSite)
+			return nil unless aSite
 			aSite.gsub!(/[^a-zA-Z0-9.\-_]/,'_')
 			File.join(cache_dir,aSite)
 		end

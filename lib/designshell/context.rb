@@ -2,8 +2,9 @@ module DesignShell
 
 	class Context
 		attr_reader :global_options,:options,:pwd,:argv,:env,:stdout,:stdin,:stderr,:credentials,:key_chain
+		attr_writer :pwd
 
-		def initialize(aValues)
+		def initialize(aValues=nil)
 			return if !aValues
 			@global_options = aValues[:global_options]
 			@options = aValues[:options]
@@ -16,7 +17,6 @@ module DesignShell
 			@credentials = aValues[:credentials]
 			@key_chain = aValues[:key_chain]
 		end
-
 
 		# http://thinkingdigitally.com/archive/capturing-output-from-puts-in-ruby/
 		#class SimpleSemParserTest < Test::Unit::TestCase

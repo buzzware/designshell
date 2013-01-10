@@ -6,6 +6,14 @@ module DesignShell
 			@namespace = aNamespace
 		end
 
+		def [](aKey)
+			get(aKey)
+		end
+
+		def []=(aKey,aValue)
+			set(aKey,aValue)
+		end
+
 		def set(aKey,aValue=nil,aPrefix='')
 			if (aKey.is_a?(String) || aKey.is_a?(Symbol))
 				@keychain[@namespace,aPrefix.to_s+aKey.to_s] = aValue

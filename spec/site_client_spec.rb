@@ -19,9 +19,15 @@ describe "SiteClient" do
 	end
 
 	it "should connect and list" do
-		result = @client.ls('.')
+		result = @client.ls
 		result.include?('/content/').should==true
 		result.include?('/template/').should==true
+		result = @client.ls('/')
+		result.include?('/content/').should==true
+		result.include?('/template/').should==true
+		result = @client.ls('/template')
+		result.include?('/template/Panels/').should==true
+		result.include?('/template/Snippets/').should==true
 	end
 
 	it "should put a string to a file, then get and check" do
@@ -66,6 +72,19 @@ describe "SiteClient" do
 		@client.delete remote_path
 	end
 
-	it "should put file even when folder doesn't exist"
+	it "should put file even when folder doesn't exist" do
+		content = StringUtils.random_word(8,8)
+		path = '/content/some/testfile.txt'
+		@client.delete('/content/some')
+		@client.exists?('/content/some').should==false
+		@client.get_string(path).should==nil
+		@client.ensure_folder_path(File.dirname(path))
+		@client.put_string(path,content)
+		content2 = @client.get_string(path)
+		content2.should == content
+		@client.delete('/content/some')
+		@client.exists?('/content/some').should==false
+		@client.exists?(path).should==false
+	end
 
 end
