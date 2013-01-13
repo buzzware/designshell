@@ -16,10 +16,6 @@ module DesignShellServer
 			@params = ::JSON.parse(tl) if @params = tl.to_nil
 		end
 
-		#def site_client
-		#	@site_client ||= DesignShell::SiteClient.new(@context)  # this is not correct now - must pass in hash of values not context
-		#end
-
 		def execute
 			self.send @command.to_sym
 		end
@@ -111,17 +107,6 @@ module DesignShellServer
 			end
 		end
 
-		#def filterAndRebase(aFilePaths, aFromPath, aToPath)
-		#	aFromPath = MiscUtils.append_slash(aFromPath)
-		#	aToPath = MiscUtils.append_slash(aToPath)
-		#	result = []
-		#	aFilePaths.each do |fp|
-		#		next unless fp.begins_with? aFromPath
-		#		result << MiscUtils.path_rebase(fp,aFromPath,aToPath)
-		#	end
-		#	result
-		#end
-
 		# Added (A), Copied (C), Deleted (D), Modified (M), Renamed (R), have their type (i.e. regular file, symlink, submodule, ...) changed (T)
 		def convertChangesToUploadsDeletes(changes)
 			uploads = []
@@ -139,18 +124,6 @@ module DesignShellServer
 			end
 			return uploads,deletes
 		end
-
-		#def determine_deploy_status
-		#	@site_deploy_status = site_client.deploy_status
-		#	if (!@site_deploy_status)
-		#		@deploy_status = {
-		#			:repo_url => @params['repo_url'],
-		#		  :branch => 'master',
-		#		  :
-		#		}
-		#	end
-		#
-		#end
 
 		def DUMMY
 			id = StringUtils.random_word(8,8)
