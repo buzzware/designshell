@@ -18,7 +18,7 @@ module DesignShellServer
 
 			@context.stdin.each_line do |line| line.chomp! "\n"
 
-				command = make_command(@context,line)
+				command = make_command(line)
 				command.execute
 
 			@context.stdout.print "\n>"

@@ -68,6 +68,7 @@
     <orderEntry type="library" scope="PROVIDED" name="rspec-mocks (v2.12.0, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-debug (v0.10.4, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-debug-base (v0.10.4, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sass (v3.2.5, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="simple_oauth (v0.2.0, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sinatra (v1.3.3, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sprockets (v2.4.5, RVM: ruby-1.8.7-p358 [dash]) [gem]" level="application" />
