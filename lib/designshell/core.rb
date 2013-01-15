@@ -27,6 +27,10 @@ module DesignShell
 			repo
 		end
 
+		def ensure_deploy_server
+			@conn ||= Net::SSH.start(@context.credentials[:deploy_host],nil)
+		end
+
 		def deploy_plan(*args)
 			return @deploy_plan if args.empty?
 			plan = args.first
@@ -53,14 +57,11 @@ module DesignShell
 			context.stdout.puts call_server_command('DEPLOY',params)
 		end
 
-		def call_server_command(aCommand, aParams)
-			result = nil
-			Net::SSH.start(@context.credentials[:deploy_host]) do |ssh|
-				command = aCommand
-				command += " " + JSON.generate(aParams) if aParams
-				result = ssh.exec!(command)
-			end
-			result
+		def call_server_command(aCommand, aParams=nil)
+			ds_conn = ensure_deploy_server
+			command = aCommand
+			command += " " + JSON.generate(aParams) if aParams
+			result = ds_conn.exec!(command)
 		end
 
 	end

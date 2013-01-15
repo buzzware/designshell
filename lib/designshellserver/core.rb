@@ -20,7 +20,7 @@ module DesignShellServer
 
 				command = make_command(line)
 				command.execute
-
+			@context.stdout.print EOF
 			@context.stdout.print "\n>"
 			end
 		end
