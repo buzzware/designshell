@@ -14,9 +14,17 @@ module DesignShellServer
 		end
 
 		def run
-			line = ENV['SSH_ORIGINAL_COMMAND']
-			command = make_command(line)
-			command.execute
+			if line = ENV['SSH_ORIGINAL_COMMAND']
+				command = make_command(line)
+				command.execute
+			else
+				@context.stdout.print "\n>"
+				@context.stdin.each_line do |line| line.chomp! "\n"
+					command = make_command(line)
+					command.execute
+					@context.stdout.print "\n>"
+				end
+			end
 		end
 
 		def cache_dir
