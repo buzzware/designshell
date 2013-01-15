@@ -38,6 +38,7 @@ lib/designshell.rb
 	s.add_runtime_dependency('osx_keychain')
 	s.add_runtime_dependency('json')
 	s.add_runtime_dependency('net_dav')
+	#s.add_runtime_dependency('curb')
 	s.add_runtime_dependency('net-ssh')
 
 end

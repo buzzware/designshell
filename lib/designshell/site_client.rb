@@ -1,4 +1,9 @@
 module DesignShell
+
+	# might have to work on net_dav to support curl with put ie implement request_sending_body
+	# http://curb.rubyforge.org/classes/Curl/Easy.html
+	#
+
 	class SiteClient
 
 		attr_accessor :deploy_status_file
@@ -49,6 +54,8 @@ module DesignShell
 				@dav.get(full_path(aPath))
 			rescue Net::HTTPServerException => e
 				e.response.is_a?(Net::HTTPNotFound) ? nil : raise
+			rescue Net::HTTPError => e
+				e.message.index('404') ? nil : raise
 			end
 		end
 

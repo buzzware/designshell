@@ -60,7 +60,7 @@ module DesignShellServer
 			branch = @params['branch'] || 'master'
 			commit = @params['commit']
 			@repo.checkout(commit,branch)
-			#@repo.reset --hard
+			#perhaps use reset --hard here
 			if (commit)
 				@repo.merge(commit,['--ff-only'])
 			else
