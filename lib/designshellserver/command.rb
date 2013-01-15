@@ -156,12 +156,18 @@ module DesignShellServer
 			writeline ['COMPLETE',id,detail].join(' ')
 		end
 
+		def QUICK
+			id = StringUtils.random_word(8,8)
+			writeline "RECEIVED "+id
+			writeline "COMPLETE "+id
+		end
 
 		def DEPLOY # {}
 			prepare_cache
 			checkout_branch_commit
 			deploy
 		end
+
 
 	end
 end

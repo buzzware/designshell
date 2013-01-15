@@ -17,13 +17,14 @@ describe "client to server interaction" do
 		)
 	end
 
-	it "should call DUMMY and get results" do
+	it "should call QUICK and get results" do
 		dash = DesignShell::Core.new(
 			:context => @context
-		  #:repo => repo
 		)
-		result = dash.call_server_command('DEPLOY')
-		result.should == "DUMMY"
+		result = dash.call_server_command('QUICK')
+		puts result
+		result.begins_with?('RECEIVED').should == true
+		result.index('COMPLETE').should >= 0
 	end
 
 	it "should connect to SSH server" do
