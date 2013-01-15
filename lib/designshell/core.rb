@@ -22,9 +22,14 @@ module DesignShell
 		end
 
 		def ensure_repo_open
-			raise "not configured" if (!repo && !repo.configured && !@configured)
-			repo.open unless repo.open?
-			repo
+			if (!@repo && @context)
+				if git_root = @context.find_git_root
+					@repo = DesignShell::Repo.new
+					@repo.open git_root
+				end
+			end
+			raise "unable to open repository" unless @repo.open?
+			@repo
 		end
 
 		def ensure_deploy_server
@@ -54,7 +59,7 @@ module DesignShell
 			params = deploy_plan.deploy_items_values.clone
 			params['site'] = deploy_plan.site
 			params['repo_url'] = repo.origin.url
-			context.stdout.puts call_server_command('DEPLOY',params)
+			call_server_command('DEPLOY',params)
 		end
 
 		def call_server_command(aCommand, aParams=nil)

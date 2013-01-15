@@ -163,9 +163,16 @@ module DesignShellServer
 		end
 
 		def DEPLOY # {}
+			id = StringUtils.random_word(8,8)
+			writeline "RECEIVED "+id
+			detail =
+			writeline ['PROGRESS',id,::JSON.generate({:message => 'preparing cache'})].join(' ')
 			prepare_cache
+			writeline ['PROGRESS',id,::JSON.generate({:message => 'checkout'})].join(' ')
 			checkout_branch_commit
+			writeline ['PROGRESS',id,::JSON.generate({:message => 'deploying'})].join(' ')
 			deploy
+			writeline "COMPLETE "+id
 		end
 
 

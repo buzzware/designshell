@@ -21,10 +21,10 @@ module DesignShell
 			end
 		end
 
-		def configure(aContext=nil)
-			# set @path
-			@configured = true
-		end
+		#def configure(aContext=nil)
+		#	# set @path
+		#	@configured = true
+		#end
 
 		def open(aPath)
 			@git = Git.open(aPath, :log => Logger.new(STDOUT))
