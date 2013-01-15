@@ -59,7 +59,8 @@ module DesignShell
 			params = deploy_plan.deploy_items_values.clone
 			params['site'] = deploy_plan.site
 			params['repo_url'] = repo.origin.url
-			call_server_command('DEPLOY',params)
+			result = call_server_command('DEPLOY',params)
+			puts result
 		end
 
 		def call_server_command(aCommand, aParams=nil)
