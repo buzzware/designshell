@@ -58,10 +58,15 @@ module DesignShell
 		end
 
 		def call_server_command(aCommand, aParams=nil)
-			ds_conn = ensure_deploy_server
+			#ds_conn = ensure_deploy_server
 			command = aCommand
 			command += " " + JSON.generate(aParams) if aParams
-			result = ds_conn.exec!(command)
+			#result = ds_conn.exec!(command)
+			result = nil
+			Net::SSH.start(@context.credentials[:deploy_host],nil) do |ssh|
+				result = ssh.exec!(command)
+			end
+			result
 		end
 
 	end
