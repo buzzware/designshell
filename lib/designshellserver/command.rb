@@ -7,7 +7,7 @@ module DesignShellServer
 			@core = aCore
 			@context = aCore && aCore.context
 			@line = aLine
-			tl = aLine.clone
+			tl = aLine.dup
 			cmd = tl.extract!(/^[A-Z0-9_]+/)
 			@command = aCommandName || cmd
 			tl.bite! ' '
