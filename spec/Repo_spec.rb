@@ -6,7 +6,7 @@ describe "Repo" do
 
 	testFolder = nil
 	before do
-		testFolder = Dir.mktmpdir('Repo_spec-')
+		testFolder = MiscUtils.real_path(Dir.mktmpdir('Repo_spec-'))
 	end
 
 	after do
@@ -34,7 +34,7 @@ describe "Repo" do
 	it "create a repo, add file, commit, change, commit, reset, check" do
 		repo = DesignShell::Repo.new
 		repo.init testFolder
-		repo.path.should == File.expand_path(testFolder)
+		repo.path.should == MiscUtils.real_path(testFolder)
 
 		file1 = File.join(testFolder,'file1.txt')
 		content11 = '11111'

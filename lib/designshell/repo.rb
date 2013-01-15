@@ -7,7 +7,7 @@ module DesignShell
 
 		attr_reader :git,:configured
 
-		GIT_METHODS = [:commit,:add,:reset_hard,:path,:clone,:log,:size,:branches,:status,:remotes,:pull,:fetch,:push]
+		GIT_METHODS = [:commit,:add,:reset_hard,:path,:clone,:log,:size,:branches,:status,:remotes,:pull,:fetch,:push,:merge]
 
 		def initialize(aDesignShell=nil)
 			@ds = aDesignShell
@@ -84,8 +84,13 @@ module DesignShell
 			if specific_commit
 				@git.checkout commit
 			else
-				@git.checkout(branch || 'master')
+				branch ||= 'master'
+				@git.checkout(branch)
 			end
+		end
+
+		def branch
+			@git.current_branch
 		end
 
 		def head

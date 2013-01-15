@@ -88,7 +88,7 @@ describe "DEPLOY command" do
 	end
 
 
-	it "should deploy, no existing cache", :broken => false do
+	it "should deploy, no existing cache" do
 
 		# set up scratch repo with basic site
 		@context.pwd = MiscUtils.append_slash(MiscUtils.real_path(MiscUtils.make_temp_dir('deploy_spec')))
@@ -180,24 +180,30 @@ EOS
 			"content/content2.txt",
 			"template/template.html"
 		]
+		site_client.deploy_status.should == {
+			'repo_url' => repo.url,
+			'branch' => repo.branch,
+			'commit' => repo.head.to_s,
+		  'fromPath' => 'build/bigcommerce/',
+		  'toPath' => 'content/deploy_spec/'
+		}
 
-		#
-		## add a file to repo
-		#MiscUtils.string_to_file "third content file",'build/bigcommerce/content/content3.txt'
-		## delete a file from repo
-		#File.rm 'build/bigcommerce/content/content2.txt'
-		## commit and push
-		#repo.commit "added content3, removed content2"
-		#repo.push
-		#
-		#command = core.make_command(@context,line)
-		#command.execute
-		#
-		## check deployed changes
-		#deployed_files = @client.ls('/content/deploy_spec',true)
-		#deployed_files.should==[  # !!! more files here - get from real
-		#	'/content/deploy_spec/template/template.html'
-		#]
+		MiscUtils.string_to_file "third content file",'build/bigcommerce/content/content3.txt'
+		FileUtils.rm 'build/bigcommerce/content/content2.txt'
+		repo.add '.'
+		repo.commit_all "added content3, removed content2"
+		repo.push
+
+		command = server.make_command(line_for_server)
+		command.execute
+
+		# check deployed changes
+		deployed_files = site_client.list_files('/content/deploy_spec',true).sort
+		deployed_files.should==[
+			"content/content1.txt",
+			"content/content3.txt",
+			"template/template.html"
+		]
 
 	end
 

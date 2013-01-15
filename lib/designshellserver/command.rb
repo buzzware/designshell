@@ -57,9 +57,15 @@ module DesignShellServer
 			#url = @params['repo_url']
 			#site = @params['site']
 			#wd = @core.working_dir_from_site(site)
-			branch = @params['branch']
+			branch = @params['branch'] || 'master'
 			commit = @params['commit']
 			@repo.checkout(commit,branch)
+			#@repo.reset --hard
+			if (commit)
+				@repo.merge(commit,['--ff-only'])
+			else
+				@repo.merge('origin/'+branch,['--ff-only'])
+			end
 		end
 
 		# Determines whether to do an incremental or complete deploy and deploys current files in repo working dir to repo_url
@@ -85,25 +91,39 @@ module DesignShellServer
 			site_commit = ds && ds['commit'].to_nil
 			repo_url = @repo.url
 			# @todo must limit uploads to build folder
-			fromPath = MiscUtils.append_slash(XmlUtils.peek_node_value(deployNode,'fromPath','/'))    # eg. /build/bigcommerce effectively selects a subfolder that should be debased
-			toPath = MiscUtils.append_slash(XmlUtils.peek_node_value(deployNode,'toPath','/'))    # eg. / effectively the new base for these files
+			fromPath = MiscUtils.ensure_slashes(XmlUtils.peek_node_value(deployNode,'fromPath','/'),false,true)    # eg. /build/bigcommerce effectively selects a subfolder that should be debased
+			toPath = MiscUtils.ensure_slashes(XmlUtils.peek_node_value(deployNode,'toPath','/'),false,true)    # eg. / effectively the new base for these files
 			if site_repo_url && site_repo_url==repo_url && site_branch && site_commit
 				# incremental
-				changes = @repo.changesBetweenCommits(@site_client,@repo.head.to_s)
+				changes = @repo.changesBetweenCommits(site_commit,@repo.head.to_s)
 				uploads,deletes = convertChangesToUploadsDeletes(changes)
 				uploads.delete_if { |fp| !fp.begins_with?(fromPath) }
 				deletes.delete_if { |fp| !fp.begins_with?(fromPath) }
 				@site_client.delete_files(deletes,fromPath,toPath)
 				@site_client.upload_files(@repo.path,uploads,fromPath,toPath)
+				@site_client.deploy_status = {
+					:repo_url => @repo.url,
+					:branch => @repo.branch,
+					:commit => @repo.head.to_s,
+				  :fromPath => fromPath,
+				  :toPath => toPath
+				}
 			else
 				# complete
 				# for now, just deploy all files in wd, creating folders as necessary
 				# later, delete remote files not in wd except for eg. .deploy-status.xml and perhaps upload folders
-				uploads = MiscUtils.recursive_file_list(@repo.path,false).map {|fp| '/'+fp}
+				uploads = MiscUtils.recursive_file_list(@repo.path,false)
 				uploads.delete_if do |fp|
-					!fp.begins_with?(fromPath) || fp.begins_with?('/.git')
+					!fp.begins_with?(fromPath) || fp.begins_with?('.git/')
 				end
 				@site_client.upload_files(@repo.path,uploads,fromPath,toPath)
+				@site_client.deploy_status = {
+					:repo_url => @repo.url,
+					:branch => @repo.branch,
+					:commit => @repo.head.to_s,
+					:fromPath => fromPath,
+		      :toPath => toPath
+				}
 			end
 		end
 

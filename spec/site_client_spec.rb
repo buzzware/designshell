@@ -20,14 +20,14 @@ describe "SiteClient" do
 
 	it "should connect and list" do
 		result = @client.ls
-		result.include?('/content/').should==true
-		result.include?('/template/').should==true
+		result.include?('content/').should==true
+		result.include?('template/').should==true
 		result = @client.ls('/')
-		result.include?('/content/').should==true
-		result.include?('/template/').should==true
-		result = @client.ls('/template')
-		result.include?('/template/Panels/').should==true
-		result.include?('/template/Snippets/').should==true
+		result.include?('content/').should==true
+		result.include?('template/').should==true
+		result = @client.ls('template')
+		result.include?('Panels/').should==true
+		result.include?('Snippets/').should==true
 	end
 
 	it "should put a string to a file, then get and check" do
