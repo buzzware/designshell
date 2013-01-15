@@ -1,3 +1,4 @@
+require 'git'
 require 'buzzcore'
 require 'buzzcore_mods'
 require 'net/dav'
