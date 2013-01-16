@@ -5,11 +5,11 @@ spec = Gem::Specification.new do |s|
   s.version = DesignShell::VERSION
   s.author = 'Gary McGhee'
   s.email = 'contact@buzzware.com.au'
-  s.description   = %q{TODO: Write a gem description}
+  s.summary = 'DesignShell is the shell for designers'
+  s.description   = 'All-round workflow tool for designers. Enables designers to comfortably use geek goodness like git, git deploy, SASS etc'
   s.require_paths = ["lib"]
   s.homepage = 'http://github.com/buzzware/designshell'
   s.platform = Gem::Platform::RUBY
-  s.summary = 'DesignShell is the shell for designers'
 # Add your other files here if you make them
   s.files         = `git ls-files`.split($\)
   s.bindir = 'bin'

@@ -1,2 +1,3 @@
+#!/bin/bash
 cd /home/dashd/designshell
-bundle exec bin/designshelld.rb
+bundle exec bin/designshellserver
