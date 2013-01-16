@@ -1,6 +1,8 @@
+#!/usr/bin/env rake
 require 'rake/clean'
 require 'rubygems'
 require 'rubygems/package_task'
+require "bundler/gem_tasks"
 require 'rdoc/task'
 require 'cucumber'
 require 'cucumber/rake/task'

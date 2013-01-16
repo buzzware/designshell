@@ -1,4 +1,4 @@
-#require 'designshell/version.rb'
+require 'designshell/version'
 require 'osx_keychain'
 require 'gli'
 require 'git'

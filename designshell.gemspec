@@ -5,22 +5,19 @@ spec = Gem::Specification.new do |s|
   s.version = DesignShell::VERSION
   s.author = 'Gary McGhee'
   s.email = 'contact@buzzware.com.au'
+  s.description   = %q{TODO: Write a gem description}
+  s.require_paths = ["lib"]
   s.homepage = 'http://github.com/buzzware/designshell'
   s.platform = Gem::Platform::RUBY
   s.summary = 'DesignShell is the shell for designers'
 # Add your other files here if you make them
-  s.files = %w(
-bin/designshell
-lib/designshell/version.rb
-lib/designshell.rb
-  )
-  s.require_paths << 'lib'
-  s.has_rdoc = true
-  s.extra_rdoc_files = ['README.rdoc','designshell.rdoc']
-  s.rdoc_options << '--title' << 'designshell' << '--main' << 'README.rdoc' << '-ri'
+  s.files         = `git ls-files`.split($\)
   s.bindir = 'bin'
-	s.executables << 'ds'
-	s.executables << 'designshelld.rb'
+  s.executables   = s.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
+  s.test_files    = s.files.grep(%r{^(test|spec|features)/})
+  #s.has_rdoc = true
+  #s.extra_rdoc_files = ['README.rdoc','designshell.rdoc']
+  #s.rdoc_options << '--title' << 'designshell' << '--main' << 'README.rdoc' << '-ri'
   s.add_development_dependency('rake')
   s.add_development_dependency('rspec')
   s.add_development_dependency('rspec-core')
