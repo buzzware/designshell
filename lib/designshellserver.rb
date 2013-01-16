@@ -4,6 +4,7 @@ require 'buzzcore_mods'
 require 'net/dav'
 require 'json'
 require 'fileutils'
+require 'uri'
 
 #require 'termios'
 #require 'highline/import'

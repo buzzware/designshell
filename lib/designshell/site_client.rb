@@ -31,7 +31,7 @@ module DesignShell
 		end
 
 		def full_path(aRelativePath)
-			File.join(@server_path,aRelativePath)
+			File.join(@server_path, URI.escape(aRelativePath))
 		end
 
 		def ls(aPath=nil,aRecursive=false)
