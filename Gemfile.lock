@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    designshell (0.0.1)
+    designshell (0.0.4)
       POpen4
       bitbucket_rest_api
       buzzcore

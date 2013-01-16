@@ -11,10 +11,16 @@ spec = Gem::Specification.new do |s|
   s.homepage = 'http://github.com/buzzware/designshell'
   s.platform = Gem::Platform::RUBY
 # Add your other files here if you make them
-  s.files         = `git ls-files`.split($\)
+  #s.files         = `git ls-files`.split($\)
+	ignores = File.readlines(".gitignore").grep(/\S+/).map {|line| line.chomp }
+	dotfiles = [".gitignore"]
+	s.files = Dir["**/*"].reject {|f| File.directory?(f) || ignores.any? {|i| File.fnmatch(i, f) } } + dotfiles
+	#sss = ['Gemfile']
+	#s.files = sss
   s.bindir = 'bin'
   s.executables   = s.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   s.test_files    = s.files.grep(%r{^(test|spec|features)/})
+	#s.test_files = s.files.grep(/^spec\//)
   #s.has_rdoc = true
   #s.extra_rdoc_files = ['README.rdoc','designshell.rdoc']
   #s.rdoc_options << '--title' << 'designshell' << '--main' << 'README.rdoc' << '-ri'
