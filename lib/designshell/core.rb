@@ -17,15 +17,15 @@ module DesignShell
 			(defined? @@instance) && @@instance
 		end
 
-		def configure(aContext)
+		def configure(aContext=@context)
 			@configured = true
 		end
 
 		def ensure_repo_open
 			if (!@repo && @context)
-				if git_root = @context.find_git_root
+				if @context.git_root
 					@repo = DesignShell::Repo.new
-					@repo.open git_root
+					@repo.open @context.git_root
 				end
 			end
 			raise "unable to open repository" unless @repo.open?
@@ -47,9 +47,36 @@ module DesignShell
 			@deploy_plan
 		end
 
+		def call_server_command(aCommand, aParams=nil)
+			#ds_conn = ensure_deploy_server
+			command = aCommand
+			command += " " + ::JSON.generate(aParams) if aParams
+			#result = ds_conn.exec!(command)
+			result = nil
+			Net::SSH.start(@context.credentials[:deploy_host],nil) do |ssh|
+				result = ssh.exec!(command)
+			end
+			result
+		end
+
 		def build
 			response = POpen4::shell('ls')
 			# puts result[:stdout]
+		end
+
+		def commit
+			ensure_repo_open
+			msg = @context.argv[0]
+			if !msg.to_nil
+				msg = ask("Please provide a comment eg. what this change is about : ") #{ |q| q.default = "none" }
+			end
+			exit_now!('Cannot commit without a comment') unless msg.to_nil
+			repo.commit_all(msg)
+		end
+
+		def push
+			commit if repo.changes?
+			repo.push
 		end
 
 		def deploy
@@ -59,20 +86,9 @@ module DesignShell
 			params = deploy_plan.deploy_items_values.clone
 			params['site'] = deploy_plan.site
 			params['repo_url'] = repo.origin.url
-			call_server_command('DEPLOY',params)
+			puts call_server_command('DEPLOY',params)
 		end
 
-		def call_server_command(aCommand, aParams=nil)
-			#ds_conn = ensure_deploy_server
-			command = aCommand
-			command += " " + JSON.generate(aParams) if aParams
-			#result = ds_conn.exec!(command)
-			result = nil
-			Net::SSH.start(@context.credentials[:deploy_host],nil) do |ssh|
-				result = ssh.exec!(command)
-			end
-			result
-		end
 
 	end
 end

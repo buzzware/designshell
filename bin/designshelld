@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+# perhaps this could do what designshelld-wrapper-example.sh is doing
+
 #require 'rubygems'
 #gem 'designshell'
 require 'designshellserver'

@@ -27,7 +27,7 @@ module DesignShell
 		#end
 
 		def open(aPath)
-			@git = Git.open(aPath, :log => Logger.new(STDOUT))
+			@git = Git.open(aPath)
 		end
 
 		def init(*args)
@@ -44,6 +44,11 @@ module DesignShell
 
 		def empty?
 			!@git.branches[0]
+		end
+
+		def changes?
+			raise RuntimeError.new('Repository must be open') unless open?
+			@git.lib.command('status',['--porcelain']).length > 0
 		end
 
 		def commit_all(*args)

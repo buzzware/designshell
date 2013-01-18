@@ -5,7 +5,7 @@ describe "client to server interaction" do
 
 	before do
 		@key_chain = DesignShell::KeyChain.new('DesignShellTest')
-		@credentials = Credentials.new('designshell')
+		@credentials = Credentials.new('DesignShellTest')
 		Dir.chdir @credentials[:deploy_repo_path]
 		@context = DesignShell::Context.new(
 			:argv=>[],

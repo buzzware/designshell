@@ -39,17 +39,21 @@ describe "Repo" do
 		file1 = File.join(testFolder,'file1.txt')
 		content11 = '11111'
 		MiscUtils.string_to_file(content11,file1)
-		repo.git.add 'file1.txt'
+		repo.add 'file1.txt'
+		repo.changes?.should == true
 		commit1 = repo.commit_all('first commit')
-
+		repo.changes?.should == false
 		content12 = '11111-some more text'
 		MiscUtils.string_to_file(content12,file1)
+		repo.changes?.should == true
 		commit2 = repo.commit_all('second commit')
+		repo.changes?.should == false
 
 		read_content = MiscUtils.string_from_file(file1)
 		read_content.should == content12
 
 		repo.reset_hard(commit1)
+		repo.changes?.should == false
 
 		read_content = MiscUtils.string_from_file(file1)
 		read_content.should == content11

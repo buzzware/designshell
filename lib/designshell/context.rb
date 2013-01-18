@@ -6,9 +6,11 @@ module DesignShell
 
 		def initialize(aValues=nil)
 			return if !aValues
+
+			is_client = !!(aValues[:key_chain] || aValues[:global_options] || aValues[:options])
 			@global_options = aValues[:global_options]
+			@pwd = MiscUtils.real_path(aValues[:pwd] || (@global_options && @global_options[:folder]) || Dir.pwd)
 			@options = aValues[:options]
-			@pwd = MiscUtils.real_path(Dir.pwd)
 			@argv = aValues[:argv]
 			@env = aValues[:env]
 			@stdout = aValues[:stdout]
@@ -16,6 +18,10 @@ module DesignShell
 			@stderr = aValues[:stderr]
 			@credentials = aValues[:credentials]
 			@key_chain = aValues[:key_chain]
+		end
+
+		def git_root
+			@git_root ||= find_git_root
 		end
 
 		# http://thinkingdigitally.com/archive/capturing-output-from-puts-in-ruby/
