@@ -1,6 +1,6 @@
 # DesignShell
 
-DesignShell aims provide a smooth workflow for web designers by integrating and providing a safe and comfortable interface to :
+DesignShell aims provide a smooth workflow for web designers (particularly working with cloud hosted systems) by integrating and providing a safe and comfortable interface to :
 
 * git
 * git deployment
@@ -10,11 +10,12 @@ DesignShell aims provide a smooth workflow for web designers by integrating and 
 
 ## Git Deployment Server (DesignShell Server)
 
-DesignShell Server is a script that runs behind sshd, providing ultimate security. It receives commands from DesignShell eg. to deploy a git repository containing a .deploy_plan.xml file. The deploy plan contains details of target servers and what folders within the repository should be deployed where. A single deploy plan can describe how to deploy one folder to a shared host and another to BigCommerce. It also contains references to the keychain for passwords etc.
+DesignShell Server is installed on a remote server and receives commands from DesignShell eg. to deploy a git repository according to its .deploy_plan.xml file. The deploy plan contains details of target servers (currently only WebDAV supported) and what folders within the repository should be deployed where. A single deploy plan can describe how to FTP one folder to a shared host and WebDAV another to BigCommerce. It also contains references to the keychain for passwords etc.
 
 ### Security
 
-DesignShell Server keeps a cache of repositories it has deployed, so that redeploys can be very fast. While it must keep keys to access your git repositories, all other credentials are passed on the fly through ssh and not stored. There is no need for this server to even provide web access. Assuming you configure sshd properly and keep your keys safe, a hacker must break sshd to get in, and if they can do that, the entire internet is at risk.
+DesignShell Server keeps a cache of repositories it has deployed, so that redeploys can be very fast. While it must keep keys to access your git repositories, all other credentials are passed on the fly encrypted through ssh and not stored. 
+DesignShell Server is a script that runs behind sshd, which provides ultimate security. There is no need for this server to even provide web access. Assuming you configure sshd properly and keep your keys safe, a hacker must break sshd to get in, and if they can do that, the entire internet is at risk.
 
 ### Fast Versioned Deployment
 
@@ -52,7 +53,7 @@ Ruby is my favourite language, and much of what is required is already provided 
 
 ### Why BitBucket? GitHub is much more awesome!
 
-Calm down and compare the pricing plans ([here](http://github.com/plans) and [here](https://bitbucket.org/plans)) for the target audience - web design agencies. If you have 10 users and >125 website projects in private repositories (you wouldn't make client projects public would you?) in a years time, you'll be paying GitHub $200 month forever, unless you take some down. On BitBucket you'll only be paying $10/month for unlimited private repositories, or free for up to 5 users.
+Calm down and compare the pricing plans ([here](http://github.com/plans) and [here](https://bitbucket.org/plans)) for the target audience - web design agencies. If you have 10 users and >125 website projects in private repositories (you wouldn't make client projects public would you?) in a years time, you'll be paying GitHub $200 month forever, unless you take some down. On BitBucket you'll only be paying $10/month for unlimited private repositories, or free for up to 5 users. It is also very similar in functionality, including its API.
 
 # Version One
 
